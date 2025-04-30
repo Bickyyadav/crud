@@ -3,8 +3,9 @@ import { prismaClient } from './prismaClient/prismaclient';
 
 const app = express();
 
-app.get('/', () => {
-  console.log('fasdfasd');
+app.get('/', (req,res) => {
+  res.send("ok my lord")
+  
 });
 
 app.post('/create-user', async (req, res) => {
