@@ -1,11 +1,14 @@
 import express from 'express';
 import { prismaClient } from './prismaClient/prismaclient';
 
-const app = express();
+import dotenv from 'dotenv';
+dotenv.config({});
 
-app.get('/', (req,res) => {
-  res.send("ok my lord")
-  
+const app = express();
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.send('ok my lord');
 });
 
 app.post('/create-user', async (req, res) => {
