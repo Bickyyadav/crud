@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { validateUser } from "./middleware/auth";
 import bodyParser from "body-parser";
-import { getTextOfJSDocComment } from "typescript";
+
 dotenv.config();
 
 const app = express();
@@ -65,93 +65,7 @@ app.post("/sign-up", async (req, res) => {
   });
 });
 
-app.get("/get-all-User", async (req, res) => {
-  const users = await prismaClient.user.findMany();
-  res.json({
-    message: "successfully get All user",
-    users,
-  });
-});
 
-app.post("/delete-user", async (req, res) => {
-  try {
-    const { email } = req.body;
-    console.log("🚀 ~ app.post ~ email:", email);
-    if (!email) {
-      res.json({
-        success: false,
-        message: "All fields are required",
-      });
-      return;
-    }
-    const user = await prismaClient.user.findUnique({
-      where: { email },
-    });
-    if (!user) {
-      res.json({
-        success: false,
-        message: "user does not exist",
-      });
-      return;
-    }
-    await prismaClient.user.delete({
-      where: {
-        email,
-      },
-    });
-    res.json({
-      message: "user deleted successfully",
-    });
-    return;
-  } catch (error) {
-    console.log("🚀 ~ app.post ~ error:", error);
-  }
-});
-
-app.post("/update-user", async (req, res) => {
-  try {
-    const { email, password, firstName, lastName } = req.body;
-    if (!email) {
-      res.json({
-        success: false,
-        message: "All fields are required",
-      });
-      return;
-    }
-    const user = await prismaClient.user.findUnique({ where: { email } });
-    if (!user) {
-      res.json({
-        success: false,
-        message: "user does not exist",
-      });
-      return;
-    }
-    //updating the field
-    type update = {
-      password?: string;
-      firstName?: string;
-      lastName?: string;
-    };
-
-    const updateData: update = {};
-    if (password) updateData.password = password;
-    if (firstName) updateData.firstName = firstName;
-    if (lastName) updateData.lastName = lastName;
-    const updateUser = await prismaClient.user.update({
-      where: {
-        email,
-      },
-      data: updateData,
-    });
-    res.json({
-      success: true,
-      message: "User updated successfully",
-      data: updateUser,
-    });
-  } catch (error) {
-    console.log("🚀 ~ app.get ~ error:", error);
-  }
-});
 
 app.post("/sign-in", async (req, res) => {
   try {
@@ -304,6 +218,6 @@ app.get("/get-all-todo", validateUser, async (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log("server is running on port number 3000");
 });
