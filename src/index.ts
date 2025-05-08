@@ -5,10 +5,12 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { validateUser } from "./middleware/auth";
 import bodyParser from "body-parser";
+import cors from "cors"
 
 dotenv.config();
 
 const app = express();
+app.use(cors())
 
 app.use(bodyParser.json());
 
