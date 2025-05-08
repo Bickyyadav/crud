@@ -14,12 +14,12 @@ datasource db {
 }
 
 model user {
-  id        String @id @default(uuid())
-  email     String @unique
-  firstName String
-  lastName  String
-  password  String
-  todo      todo[]
+  id       String @id @default(uuid())
+  email    String @unique
+  username String @unique
+  fullName String
+  password String
+  todo     todo[]
 }
 
 model todo {

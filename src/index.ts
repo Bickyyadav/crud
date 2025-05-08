@@ -17,9 +17,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/sign-up", async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, username, fullName } = req.body;
 
-  if (!email || !password || !firstName || !lastName) {
+  if (!email || !password || !username || !fullName) {
     res.status(400).json({
       success: false,
       message: "all fields are required",
@@ -45,16 +45,16 @@ app.post("/sign-up", async (req, res) => {
   const data = {
     email,
     password: hashPassword,
-    firstName,
-    lastName,
+    username,
+    fullName,
   };
   const user = await prismaClient.user.create({
     data: data,
     select: {
       id: true,
       email: true,
-      firstName: true,
-      lastName: true,
+      username: true,
+      fullName: true,
     },
   });
 
@@ -266,7 +266,7 @@ app.get("/mark-completed", validateUser, async (req, res) => {
 
       data: [],
     });
-    return
+    return;
   }
   const markAsCompleted = completed === "true";
 
